@@ -39,7 +39,6 @@ export const ItemPage = () => {
                         </div>
                     </div>
 
-                    {/* Botones lado a lado */}
                     <div className="mt-3 d-flex gap-2 justify-content-center">
                         <button className="btn btn-warning" onClick={copyToClipboard}>
                             Copiar enlace
@@ -49,7 +48,6 @@ export const ItemPage = () => {
                         </button>
                     </div>
 
-                    {/* Modal del QR */}
                     {showQRModal && (
                         <div
                             style={{
@@ -64,7 +62,7 @@ export const ItemPage = () => {
                                 alignItems: "center",
                                 zIndex: 1050,
                             }}
-                            onClick={() => setShowQRModal(false)} // cerrar al clicar fuera
+                            onClick={() => setShowQRModal(false)}
                         >
                             <div
                                 style={{
@@ -74,13 +72,28 @@ export const ItemPage = () => {
                                     textAlign: "center",
                                     position: "relative",
                                 }}
-                                onClick={(e) => e.stopPropagation()} // evitar cerrar al clicar dentro
+                                onClick={(e) => e.stopPropagation()}
                             >
                                 <h5 className="mb-3">{item.nombre.toUpperCase()}</h5>
-                                <QRCodeCanvas value={itemURL} size={200} />
+
+                                <QRCodeCanvas
+                                    value={itemURL}
+                                    size={300}
+                                    bgColor="#ffffffff"
+                                    fgColor="#000000ff"
+                                    level="H"
+                                    includeMargin={true}
+                                    imageSettings={{
+                                        src: "/logo.png", // pon tu logo si quieres
+                                        height: 100,
+                                        width: 100,
+                                        excavate: true
+                                    }}
+                                />
+
                                 <div className="mt-3">
                                     <button
-                                        className="btn btn-danger"
+                                        className="btn btn-warning"
                                         onClick={() => setShowQRModal(false)}
                                     >
                                         Cerrar
@@ -93,16 +106,13 @@ export const ItemPage = () => {
 
                 <div className="col-md-6">
                     <div className="p-4 bg-dark text-light rounded shadow-lg">
-                        {Object.entries(item).map(([key, value]) => (
-                            value &&
-                            key !== "id" &&
-                            key !== "image" &&
-                            key !== "type_id" && (
+                        {Object.entries(item).map(([key, value]) =>
+                            value && key !== "id" && key !== "image" && key !== "type_id" ? (
                                 <p key={key}>
                                     <strong>{key.replace(/_/g, " ").toUpperCase()}:</strong> {value}
                                 </p>
-                            )
-                        ))}
+                            ) : null
+                        )}
                     </div>
                 </div>
             </div>
