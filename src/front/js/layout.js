@@ -26,7 +26,6 @@ const Layout = () => {
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
                     <Navbar />
-                    {/* 👇 Aquí añadimos el main */}
                     <main className="flex-fill">
                         <Routes>
                             <Route element={<Home />} path="/" />

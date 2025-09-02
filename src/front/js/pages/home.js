@@ -11,13 +11,17 @@ export const Home = () => {
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
-        e.preventDefault(); // evita recarga de la página
+        e.preventDefault();
         const result = await actions.login(usuario, password);
         if (result.success) {
             navigate("/categorias");
         } else {
             alert(result.message);
         }
+    };
+
+    const handleGuest = () => {
+        navigate("/categorias");
     };
 
     return (
@@ -62,13 +66,21 @@ export const Home = () => {
                                 <label className="form-label" htmlFor="password">Contraseña</label>
                             </div>
 
-                            <div className="text-center text-lg-start mt-4">
+                            <div className="text-center text-lg-start mt-4 d-flex gap-3">
                                 <button
-                                    type="submit"  // <-- aquí
+                                    type="submit"
                                     className="btn btn-warning btn-lg"
                                     style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
                                 >
                                     Login
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary btn-lg"
+                                    onClick={handleGuest}
+                                >
+                                    Iniciar como invitado
                                 </button>
                             </div>
                         </form>
