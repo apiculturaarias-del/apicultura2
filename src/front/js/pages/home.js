@@ -1,26 +1,80 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+import Logo from "../../img/logo.png";
 import "../../styles/home.css";
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
+    const { actions } = useContext(Context);
+    const [usuario, setUsuario] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
-		</div>
-	);
+    const handleLogin = async (e) => {
+        e.preventDefault(); // evita recarga de la página
+        const result = await actions.login(usuario, password);
+        if (result.success) {
+            navigate("/categorias");
+        } else {
+            alert(result.message);
+        }
+    };
+
+    return (
+        <section className="d-flex flex-column justify-content-center">
+            <div className="container-fluid h-custom">
+                <div className="row d-flex justify-content-center align-items-center h-100">
+                    <div className="col-md-9 col-lg-6 col-xl-5">
+                        <img
+                            src={Logo}
+                            alt="APIculturaArias Logo"
+                            className="img-fluid invert-image mt-5 mb-5 d-none d-lg-block"
+                        />
+                    </div>
+
+                    <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                        <form onSubmit={handleLogin}>
+                            <div className="divider d-flex align-items-center my-4">
+                                <h1>Iniciar Sesión</h1>
+                            </div>
+
+                            <div className="form-outline mb-4">
+                                <input
+                                    type="text"
+                                    id="username"
+                                    className="form-control form-control-lg"
+                                    placeholder="Introduzca un usuario"
+                                    value={usuario}
+                                    onChange={e => setUsuario(e.target.value)}
+                                />
+                                <label className="form-label" htmlFor="username">Usuario</label>
+                            </div>
+
+                            <div className="form-outline mb-3">
+                                <input
+                                    type="password"
+                                    id="password"
+                                    className="form-control form-control-lg"
+                                    placeholder="Introduzca su contraseña"
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
+                                />
+                                <label className="form-label" htmlFor="password">Contraseña</label>
+                            </div>
+
+                            <div className="text-center text-lg-start mt-4">
+                                <button
+                                    type="submit"  // <-- aquí
+                                    className="btn btn-warning btn-lg"
+                                    style={{ paddingLeft: "2.5rem", paddingRight: "2.5rem" }}
+                                >
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
 };

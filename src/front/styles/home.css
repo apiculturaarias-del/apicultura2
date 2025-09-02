@@ -1,7 +1,204 @@
-/*
-    home.css: This website contains selectors only used in home.css
+body {
+  background-color: #212529; /* negro oscuro tipo bg-dark de Bootstrap */
+  color: #fff; /* para que el texto se vea claro en fondo oscuro */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif; /* o la que uses */
+}
+.invert-image {
+  filter: invert(100%);
+}
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
+/*navbar*/
+.navbar-logo {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+}
+
+.custom-hover:hover {
+  color: #808080 !important;
+  text-decoration: none;
+}
+
+.custom-dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+}
+
+.custom-dropdown .dropdown-menu {
+  background-color: #000;
+  color: #fff;
+  border: none;
+}
+
+.custom-dropdown .dropdown-item {
+  color: #fff;
+}
+
+.custom-dropdown .dropdown-item:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.form-control:focus {
+  border-color: #000 !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4) !important;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.navbar-user:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.custom-white-separator {
+  width: auto;
+  border: none;
+  height: 3px;
+  background-color: white;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+/*inicio sesion*/
+.navbar-logo-sesion {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+}
+
+/*Card*/
+/* Tamaño fijo de las cards */
+.box {
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.9);
+  width: 100%;          /* ocupa toda la columna del grid */
+  height: 400px;         /* alto fijo */
+  margin: 0 auto;
+}
+
+.box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* cubre toda la card sin deformarse */
+  border-radius: 10px;
+  display: block;
+  transition: transform 0.5s;
+}
+
+.box:hover img {
+  transform: scale(1.05);
+}
+
+.overlay {
+  width: 100%;
+  height: 0;
+  background: linear-gradient(transparent, #1c1c1c 58%);
+  border-radius: 10px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 20px;
+  text-align: center;
+  font-size: 14px;
+  transition: height 0.5s;
+}
+
+.overlay h3 {
+  font-weight: 500;
+  margin-bottom: 5px;
+  margin-top: 80%;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.overlay p {
+  color: #ddd;
+  margin-bottom: 10px;
+}
+
+.overlay a {
+  color: #262626;
+  text-decoration: none;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 50px;
+  text-align: center;
+  padding: 5px 15px;
+  transition: background 0.3s ease;
+}
+
+.overlay a:hover {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.box:hover .overlay {
+  height: 100%;
+}
+
+.category-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Cartas responsivas centradas */
+.cartas {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center; /* centra las columnas si hay pocas */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 300px)); /* ancho máximo 300px */
+  max-width: 1300px; /* limita ancho total del grid */
+  margin: 0 auto; /* centra todo el grid en la página */
+  grid-auto-rows: auto;
+}
+
+/* Ajuste de altura de cards en móvil */
+
+@media (max-width: 767px) {
+  .box {
+    width: 100%;    /* ancho cómodo en móvil */
+    height: 400px; /* altura mayor para que el botón se vea */
+  }
+}
+
+/* ===================== RESPONSIVE FOOTER Y LOGIN ===================== */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Contenedor principal flexible */
+#root, .d-flex.flex-column.min-vh-100 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Footer se empuja abajo */
+footer {
+  margin-top: auto;
+}
