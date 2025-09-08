@@ -8,6 +8,7 @@ export const Home = () => {
     const { actions } = useContext(Context);
     const [usuario, setUsuario] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -54,9 +55,9 @@ export const Home = () => {
                                 <label className="form-label" htmlFor="username">Usuario</label>
                             </div>
 
-                            <div className="form-outline mb-3">
+                            <div className="form-outline mb-3 position-relative">
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     id="password"
                                     className="form-control form-control-lg"
                                     placeholder="Introduzca su contraseña"
@@ -64,6 +65,22 @@ export const Home = () => {
                                     onChange={e => setPassword(e.target.value)}
                                 />
                                 <label className="form-label" htmlFor="password">Contraseña</label>
+
+                                {/* Icono de mostrar/ocultar */}
+                                <span
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    style={{
+                                        position: "absolute",
+                                        right: "10px",
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                        cursor: "pointer",
+                                        fontSize: "18px",
+                                        color: "#888"
+                                    }}
+                                >
+                                    {showPassword ? "✖" : "👁️"}
+                                </span>
                             </div>
 
                             <div className="text-center text-lg-start mt-4 d-flex gap-3">
