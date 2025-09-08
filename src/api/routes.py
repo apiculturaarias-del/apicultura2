@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from api.models import db, User, Category, Type, Item
 from flask_cors import CORS
 
@@ -19,7 +19,29 @@ def login():
     user = User.query.filter_by(usuario=usuario).first()
     if not user or user.password != password:
         return jsonify({"message": "Usuario o contraseña incorrectos"}), 401
-    return jsonify({"message": "Login exitoso"}), 200
+
+    # Guardar el usuario en la sesión
+    session["user_id"] = user.id
+    return jsonify({"message": "Login exitoso", "user": user.serialize()}), 200
+
+# Obtener sesión actual
+@api.route("/session")
+def get_session():
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"user": None}), 200
+
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"user": None}), 200
+
+    return jsonify({"user": user.serialize()}), 200
+
+# Logout
+@api.route("/logout", methods=["POST"])
+def logout():
+    session.clear()
+    return jsonify({"message": "Sesión cerrada"}), 200
 
 # Categories
 @api.route("/categories")
@@ -54,8 +76,3 @@ def get_all_items():
     else:
         items = Item.query.all()
     return jsonify([i.serialize() for i in items]), 200
-
-@api.route("/logout", methods=["POST"])
-def logout():
-    session.clear()
-    return jsonify({"message": "Sesión cerrada"}), 200

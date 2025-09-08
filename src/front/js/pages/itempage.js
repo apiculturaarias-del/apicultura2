@@ -6,12 +6,23 @@ export const ItemPage = () => {
     const { itemId } = useParams();
     const [item, setItem] = useState(null);
     const [showQRModal, setShowQRModal] = useState(false);
+    const [user, setUser] = useState(null); // Estado para la sesión
 
     useEffect(() => {
+        // Fetch del item
         fetch(`${process.env.BACKEND_URL}/api/items/${itemId}`)
             .then(res => res.json())
             .then(data => setItem(data))
             .catch(err => console.error(err));
+
+        // Fetch del usuario (sesión) con cookies
+        fetch(`${process.env.BACKEND_URL}/api/session`, { credentials: "include" })
+            .then(res => res.json())
+            .then(data => {
+                console.log("Sesión recibida:", data); // Para debug
+                setUser(data.user); // null si no hay sesión
+            })
+            .catch(err => setUser(null));
     }, [itemId]);
 
     if (!item) return <p className="text-center mt-5">Cargando artículo...</p>;
@@ -24,16 +35,54 @@ export const ItemPage = () => {
             .catch(err => console.error("Error al copiar: ", err));
     };
 
+    // Campos sensibles que solo se muestran si hay sesión iniciada
+    const sensitiveFields = ["numero_piezas", "precio_compra", "valoracion_actual", "observaciones"];
+
     return (
         <div className="container my-5">
             <div className="row justify-content-center">
                 <div className="col-md-6 mb-4">
                     <div className="">
-                        <img
-                            src={item.image || "https://via.placeholder.com/500"}
-                            alt={item.nombre}
-                            className="img-fluid rounded"
-                        />
+                        <div className="carousel slide" id="itemCarousel" data-bs-ride="carousel">
+                            <div className="carousel-indicators">
+                                {[item.image1, item.image2, item.image3, item.image4].map((img, index) =>
+                                    img ? (
+                                        <button
+                                            key={index}
+                                            type="button"
+                                            data-bs-target="#itemCarousel"
+                                            data-bs-slide-to={index}
+                                            className={index === 0 ? "active" : ""}
+                                            aria-current={index === 0 ? "true" : undefined}
+                                            aria-label={`Slide ${index + 1}`}
+                                        ></button>
+                                    ) : null
+                                )}
+                            </div>
+
+                            <div className="carousel-inner">
+                                {[item.image1, item.image2, item.image3, item.image4].map((img, index) =>
+                                    img ? (
+                                        <div
+                                            key={index}
+                                            className={`carousel-item ${index === 0 ? "active" : ""}`}
+                                        >
+                                            <img src={img} className="d-block w-100 rounded" alt={`${item.nombre} ${index + 1}`} />
+                                        </div>
+                                    ) : null
+                                )}
+                            </div>
+
+                            <button className="carousel-control-prev" type="button" data-bs-target="#itemCarousel" data-bs-slide="prev">
+                                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span className="visually-hidden">Previous</span>
+                            </button>
+                            <button className="carousel-control-next" type="button" data-bs-target="#itemCarousel" data-bs-slide="next">
+                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span className="visually-hidden">Next</span>
+                            </button>
+                        </div>
+
                         <div className="overlay">
                             <h3>{item.nombre.toUpperCase()}</h3>
                         </div>
@@ -84,7 +133,7 @@ export const ItemPage = () => {
                                     level="H"
                                     includeMargin={true}
                                     imageSettings={{
-                                        src: "/logo.png", // pon tu logo si quieres
+                                        src: "/logo.png",
                                         height: 100,
                                         width: 100,
                                         excavate: true
@@ -92,10 +141,7 @@ export const ItemPage = () => {
                                 />
 
                                 <div className="mt-3">
-                                    <button
-                                        className="btn btn-warning"
-                                        onClick={() => setShowQRModal(false)}
-                                    >
+                                    <button className="btn btn-warning" onClick={() => setShowQRModal(false)}>
                                         Cerrar
                                     </button>
                                 </div>
@@ -106,13 +152,21 @@ export const ItemPage = () => {
 
                 <div className="col-md-6">
                     <div className="p-4 bg-dark text-light rounded shadow-lg">
-                        {Object.entries(item).map(([key, value]) =>
-                            value && key !== "id" && key !== "image" && key !== "type_id" ? (
+                        {Object.entries(item).map(([key, value]) => {
+                            if (!value) return null;
+
+                            const excluded = ["id", "image1", "image2", "image3", "image4", "type_id"];
+                            if (excluded.includes(key)) return null;
+
+                            // 🔹 Solo mostrar sensibles si hay sesión
+                            if (!user && sensitiveFields.includes(key)) return null;
+
+                            return (
                                 <p key={key}>
                                     <strong>{key.replace(/_/g, " ").toUpperCase()}:</strong> {value}
                                 </p>
-                            ) : null
-                        )}
+                            );
+                        })}
                     </div>
                 </div>
             </div>

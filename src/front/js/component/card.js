@@ -11,7 +11,6 @@ export const Card = ({ category }) => {
       />
       <div className="overlay">
         <h3>{category.nombre.toUpperCase()}</h3>
-        <p>{category.descripcion}</p>
 <Link to={`/categorias/${category.id}/types`}>Ver tipos</Link>
       </div>
     </div>

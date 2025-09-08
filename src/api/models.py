@@ -17,10 +17,10 @@ class User(db.Model):
             "usuario": self.usuario,
         }
 
+
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(120), unique=True, nullable=False)
-    descripcion = db.Column(db.String(255), nullable=True)
     image = db.Column(db.String(255), nullable=True)
     types = db.relationship('Type', backref='category', lazy=True)
 
@@ -31,15 +31,14 @@ class Category(db.Model):
         return {
             "id": self.id,
             "nombre": self.nombre,
-            "descripcion": self.descripcion,
             "image": self.image
         }
+
 
 class Type(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(120), unique=True, nullable=False)
-    descripcion = db.Column(db.String(255), nullable=True)
-    image = db.Column(db.String(255), nullable=True)  # <-- añadir
+    image = db.Column(db.String(255), nullable=True) 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     items = db.relationship('Item', backref='type', lazy=True)
     
@@ -50,17 +49,15 @@ class Type(db.Model):
         return {
             "id": self.id,
             "nombre": self.nombre,
-            "descripcion": self.descripcion,
-            "image": self.image,  # <-- incluir en serialize
+            "image": self.image,
             "category_id": self.category_id
         }
 
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(120), unique=True, nullable=False)  # <-- mantenido
-    descripcion = db.Column(db.String(255), nullable=True)           # <-- mantenido
-    image = db.Column(db.String(255), nullable=True)                 # <-- nueva imagen opcional
+    nombre = db.Column(db.String(120), unique=True, nullable=False)
+    descripcion = db.Column(db.String(255), nullable=True)
     type_id = db.Column(db.Integer, db.ForeignKey('type.id'), nullable=False)
 
     # Nuevos campos opcionales
@@ -86,16 +83,20 @@ class Item(db.Model):
     exposiciones = db.Column(db.String(255), nullable=True)
     referencias_bibliograficas = db.Column(db.String(255), nullable=True)
     prestamos = db.Column(db.String(255), nullable=True)
-    foto = db.Column(db.String(255), nullable=True)
+
+    # 🔹 Campos para hasta 4 imágenes
+    image1 = db.Column(db.String(255), nullable=True)
+    image2 = db.Column(db.String(255), nullable=True)
+    image3 = db.Column(db.String(255), nullable=True)
+    image4 = db.Column(db.String(255), nullable=True)
 
     def serialize(self):
         return {
             "id": self.id,
             "nombre": self.nombre,
             "descripcion": self.descripcion,
-            "image": self.image,
             "type_id": self.type_id,
-            "numero_registro_general": self.numero_registro_general,
+            "numero_registro_general": self.id,
             "articulo": self.articulo,
             "nombre_local_tradicional": self.nombre_local_tradicional,
             "referencia_topografica": self.referencia_topografica,
@@ -116,5 +117,8 @@ class Item(db.Model):
             "observaciones": self.observaciones,
             "exposiciones": self.exposiciones,
             "referencias_bibliograficas": self.referencias_bibliograficas,
-            "prestamos": self.prestamos,
+            "image1": self.image1,
+            "image2": self.image2,
+            "image3": self.image3,
+            "image4": self.image4
         }
