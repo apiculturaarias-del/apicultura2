@@ -5,6 +5,7 @@ import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
 import { Categories } from "./pages/categorias";
+import { Articulos } from "./pages/articulos";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
@@ -30,6 +31,7 @@ const Layout = () => {
                         <Routes>
                             <Route element={<Home />} path="/" />
                             <Route element={<Categories />} path="/categorias" />
+                            <Route element={<Articulos />} path="/articulos" />
                             <Route path="/categorias/:categoryId/types" element={<Types />} />
                             <Route path="/types/:typeId/items" element={<Items />} />
                             <Route path="/items/:itemId" element={<ItemPage />} />

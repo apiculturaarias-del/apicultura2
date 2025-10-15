@@ -68,7 +68,6 @@ export const Navbar = () => {
           <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul className="navbar-nav mb-2 mb-lg-0">
               
-              {/* 🔸 NUEVO BOTÓN: Artículos */}
               <li className="nav-item">
                 <Link
                   className="nav-link text-dark fw-bold fs-5 custom-hover"

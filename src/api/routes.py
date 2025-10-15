@@ -55,12 +55,19 @@ def get_types(category_id):
     types = Type.query.filter_by(category_id=category_id).all()
     return jsonify([t.serialize() for t in types]), 200
 
-# Items por type
-@api.route("/types/<int:type_id>/items")
-def get_items(type_id):
-    items = Item.query.filter_by(type_id=type_id).all()
+# Subtypes por type
+@api.route("/types/<int:type_id>/subtypes")
+def get_subtypes(type_id):
+    subtypes = Subtype.query.filter_by(type_id=type_id).all()
+    return jsonify([s.serialize() for s in subtypes]), 200
+
+# Items por subtype
+@api.route("/subtypes/<int:subtype_id>/items")
+def get_items_by_subtype(subtype_id):
+    items = Item.query.filter_by(subtype_id=subtype_id).all()
     return jsonify([i.serialize() for i in items]), 200
 
+# Item individual
 @api.route("/items/<int:item_id>")
 def get_item(item_id):
     item = Item.query.get(item_id)
@@ -68,6 +75,7 @@ def get_item(item_id):
         return jsonify({"message": "Item no encontrado"}), 404
     return jsonify(item.serialize()), 200
 
+# Todos los items (con búsqueda opcional)
 @api.route("/items")
 def get_all_items():
     search = request.args.get("search", "")

@@ -40,7 +40,7 @@ class Type(db.Model):
     nombre = db.Column(db.String(120), unique=True, nullable=False)
     image = db.Column(db.String(255), nullable=True) 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
-    items = db.relationship('Item', backref='type', lazy=True)
+    subtypes = db.relationship('Subtype', backref='type', lazy=True)
     
     def __repr__(self):
         return f'{self.nombre}'
@@ -54,11 +54,30 @@ class Type(db.Model):
         }
 
 
+class Subtype(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(120), unique=True, nullable=False)
+    image = db.Column(db.String(255), nullable=True)
+    type_id = db.Column(db.Integer, db.ForeignKey('type.id'), nullable=False)
+    items = db.relationship('Item', backref='subtype', lazy=True)
+
+    def __repr__(self):
+        return f'{self.nombre}'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "image": self.image,
+            "type_id": self.type_id
+        }
+
+
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(120), unique=True, nullable=False)
     descripcion = db.Column(db.String(255), nullable=True)
-    type_id = db.Column(db.Integer, db.ForeignKey('type.id'), nullable=False)
+    subtype_id = db.Column(db.Integer, db.ForeignKey('subtype.id'), nullable=False)
 
     # Nuevos campos opcionales
     numero_registro_general = db.Column(db.String(120), nullable=True)
@@ -95,8 +114,8 @@ class Item(db.Model):
             "id": self.id,
             "nombre": self.nombre,
             "descripcion": self.descripcion,
-            "type_id": self.type_id,
-            "numero_registro_general": self.id,
+            "subtype_id": self.subtype_id,
+            "numero_registro_general": self.numero_registro_general,
             "articulo": self.articulo,
             "nombre_local_tradicional": self.nombre_local_tradicional,
             "referencia_topografica": self.referencia_topografica,
