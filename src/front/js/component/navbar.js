@@ -28,24 +28,22 @@ export const Navbar = () => {
   }, [searchTerm]);
 
   // Logout
-const handleLogout = async () => {
-  try {
-    const res = await fetch(`${process.env.BACKEND_URL}/api/logout`, {
-      method: "POST",
-      credentials: "include" // <-- MUY IMPORTANTE para enviar la cookie de sesión
-    });
-    if (!res.ok) throw new Error("Error al cerrar sesión");
-    alert("Sesión cerrada");
-    const modalEl = document.getElementById("logoutModal");
-    const modal = window.bootstrap.Modal.getInstance(modalEl);
-    modal.hide();
-  } catch (err) {
-    console.error(err);
-    alert("No se pudo cerrar sesión");
-  }
-};
-
-
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(`${process.env.BACKEND_URL}/api/logout`, {
+        method: "POST",
+        credentials: "include"
+      });
+      if (!res.ok) throw new Error("Error al cerrar sesión");
+      alert("Sesión cerrada");
+      const modalEl = document.getElementById("logoutModal");
+      const modal = window.bootstrap.Modal.getInstance(modalEl);
+      modal.hide();
+    } catch (err) {
+      console.error(err);
+      alert("No se pudo cerrar sesión");
+    }
+  };
 
   return (
     <>
@@ -69,6 +67,17 @@ const handleLogout = async () => {
 
           <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul className="navbar-nav mb-2 mb-lg-0">
+              
+              {/* 🔸 NUEVO BOTÓN: Artículos */}
+              <li className="nav-item">
+                <Link
+                  className="nav-link text-dark fw-bold fs-5 custom-hover"
+                  to="/articulos"
+                >
+                  Artículos
+                </Link>
+              </li>
+
               {/* Categorías */}
               <li className="nav-item dropdown custom-dropdown">
                 <a
@@ -97,7 +106,7 @@ const handleLogout = async () => {
               <input
                 className="form-control"
                 type="search"
-                placeholder="Buscar Articulo"
+                placeholder="Buscar Artículo"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
