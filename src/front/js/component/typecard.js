@@ -11,7 +11,7 @@ export const TypeCard = ({ type }) => {
       />
       <div className="overlay">
         <h3>{type.nombre.toUpperCase()}</h3>
-        <Link to={`/types/${type.id}/items`}>Ver artículos</Link>
+        <Link to={`/types/${type.id}/subtypes`}>Ver subtipo</Link>
       </div>
     </div>
   );
