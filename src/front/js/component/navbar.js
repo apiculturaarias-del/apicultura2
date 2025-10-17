@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
 import Logo from "../../img/logo.png";
 
 export const Navbar = () => {
+  const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
+
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -28,20 +32,18 @@ export const Navbar = () => {
   }, [searchTerm]);
 
   // Logout
-  const handleLogout = async () => {
-    try {
-      const res = await fetch(`${process.env.BACKEND_URL}/api/logout`, {
-        method: "POST",
-        credentials: "include"
-      });
-      if (!res.ok) throw new Error("Error al cerrar sesión");
-      alert("Sesión cerrada");
-      const modalEl = document.getElementById("logoutModal");
+  const handleLogout = () => {
+    // Limpiar store y localStorage
+    actions.logout();
+
+    // Opcional: redirigir al login o home
+    navigate("/");
+
+    // Cerrar modal si está abierto
+    const modalEl = document.getElementById("logoutModal");
+    if (modalEl) {
       const modal = window.bootstrap.Modal.getInstance(modalEl);
-      modal.hide();
-    } catch (err) {
-      console.error(err);
-      alert("No se pudo cerrar sesión");
+      modal?.hide();
     }
   };
 
@@ -67,12 +69,8 @@ export const Navbar = () => {
 
           <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul className="navbar-nav mb-2 mb-lg-0">
-              
               <li className="nav-item">
-                <Link
-                  className="nav-link text-dark fw-bold fs-5 custom-hover"
-                  to="/articulos"
-                >
+                <Link className="nav-link text-dark fw-bold fs-5 custom-hover" to="/articulos">
                   Artículos
                 </Link>
               </li>
@@ -137,18 +135,20 @@ export const Navbar = () => {
             </div>
 
             {/* Botón logout */}
-            <button
-              type="button"
-              className="btn nav-link text-dark ms-2 me-1 navbar-user"
-              data-bs-toggle="modal"
-              data-bs-target="#logoutModal"
-              aria-label="Cerrar sesión"
-              style={{ cursor: "pointer" }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" className="bi bi-person-fill-lock" viewBox="0 0 16 16">
-                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5v-1a2 2 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693Q8.844 9.002 8 9c-5 0-6 3-6 4m7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1" />
-              </svg>
-            </button>
+            {store.currentUser && (
+              <button
+                type="button"
+                className="btn nav-link text-dark ms-2 me-1 navbar-user"
+                data-bs-toggle="modal"
+                data-bs-target="#logoutModal"
+                aria-label="Cerrar sesión"
+                style={{ cursor: "pointer" }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor" className="bi bi-person-fill-lock" viewBox="0 0 16 16">
+                  <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5v-1a2 2 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693Q8.844 9.002 8 9c-5 0-6 3-6 4m7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1" />
+                </svg>
+              </button>
+            )}
           </div>
         </div>
       </nav>

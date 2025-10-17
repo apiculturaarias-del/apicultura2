@@ -54,10 +54,10 @@ class ItemAdmin(ModelView):
         'image4': 'Imagen 4'
     }
     form_labels = column_labels
+    column_exclude_list = ['description']
     can_export = True
 
 
-# Función de configuración de admin
 def setup_admin(app):
     app.secret_key = os.environ.get('FLASK_APP_KEY', 'sample key')
     app.config['FLASK_ADMIN_SWATCH'] = 'yeti'
