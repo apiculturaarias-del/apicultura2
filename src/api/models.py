@@ -79,7 +79,6 @@ class Item(db.Model):
     descripcion = db.Column(db.String(255), nullable=True)
     subtype_id = db.Column(db.Integer, db.ForeignKey('subtype.id'), nullable=False)
 
-    # Nuevos campos opcionales
     numero_registro_general = db.Column(db.String(120), nullable=True)
     articulo = db.Column(db.String(120), nullable=True)
     nombre_local_tradicional = db.Column(db.String(120), nullable=True)
@@ -103,7 +102,6 @@ class Item(db.Model):
     referencias_bibliograficas = db.Column(db.String(255), nullable=True)
     prestamos = db.Column(db.String(255), nullable=True)
 
-    # 🔹 Campos para hasta 4 imágenes
     image1 = db.Column(db.String(255), nullable=True)
     image2 = db.Column(db.String(255), nullable=True)
     image3 = db.Column(db.String(255), nullable=True)

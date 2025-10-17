@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { SubtypeCard } from "../component/subtypecard";
+import { SubtypeCard } from "../component/SubtypeCard";
 
 export const Subtypes = () => {
   const { typeId } = useParams();
