@@ -155,12 +155,22 @@ export const ItemPage = () => {
                         {Object.entries(item).map(([key, value]) => {
                             if (!value) return null;
 
-                            const excluded = ["id", "image1", "image2", "image3", "image4", "type_id"];
+                            const excluded = ["id", "image1", "image2", "image3", "image4", "subtype_id"];
                             if (excluded.includes(key)) return null;
 
                             // 🔹 Solo mostrar sensibles si hay sesión
                             if (!user && sensitiveFields.includes(key)) return null;
+                            let displayValue = value;
 
+                            // 🔹 Añadir ceros delante a numero_registro_general
+                            if (key === "numero_registro_general") {
+                                displayValue = value.toString().padStart(3, "0");
+                            }
+
+                            // 🔹 Añadir símbolo de euro a precios
+                            if (key === "precio_compra" || key === "valoracion_actual") {
+                                displayValue = `${value} €`;
+                            }
                             return (
                                 <p key={key}>
                                     <strong>{key.replace(/_/g, " ").toUpperCase()}:</strong> {value}

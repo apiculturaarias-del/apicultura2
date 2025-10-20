@@ -113,7 +113,7 @@ class Item(db.Model):
             "nombre": self.nombre,
             "descripcion": self.descripcion,
             "subtype_id": self.subtype_id,
-            "numero_registro_general": self.numero_registro_general,
+            "numero_registro_general": self.id,
             "articulo": self.articulo,
             "nombre_local_tradicional": self.nombre_local_tradicional,
             "referencia_topografica": self.referencia_topografica,
