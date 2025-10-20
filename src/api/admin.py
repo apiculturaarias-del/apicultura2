@@ -54,7 +54,7 @@ class ItemAdmin(ModelView):
         'image4': 'Imagen 4'
     }
     form_labels = column_labels
-    column_exclude_list = ['description']
+    column_exclude_list = ['descripcion']
     can_export = True
 
 

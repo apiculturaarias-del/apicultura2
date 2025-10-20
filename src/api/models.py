@@ -61,7 +61,7 @@ class Subtype(db.Model):
     type_id = db.Column(db.Integer, db.ForeignKey('type.id'), nullable=False)
     items = db.relationship('Item', backref='subtype', lazy=True)
 
-    def __repr__(self):
+    def __str__(self):
         return f'{self.nombre}'
 
     def serialize(self):
