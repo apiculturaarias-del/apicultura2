@@ -2,17 +2,12 @@
 # exit on error
 set -o errexit
 
-# Instala dependencias del frontend
 npm install
 npm run build
 
-# Instala pipenv (Render no lo trae por defecto)
 pip install pipenv
-
-# Instala dependencias del backend
 pipenv install --deploy --ignore-pipfile
 
-# Ejecuta cualquier comando adicional (opcional)
-# pipenv run python manage.py migrate
-# pipenv run python manage.py collectstatic --noinput
-# pipenv run python app.py
+# 🚀 Crear tablas automáticamente si no existen
+echo "📦 Creando tablas en la base de datos si no existen..."
+pipenv run python -c "from src.app import app; from src.models import db; app.app_context().push(); db.create_all(); print('✅ Tablas creadas o ya existentes.')"
