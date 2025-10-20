@@ -173,8 +173,9 @@ export const ItemPage = () => {
                             }
                             return (
                                 <p key={key}>
-                                    <strong>{key.replace(/_/g, " ").toUpperCase()}:</strong> {value}
+                                    <strong>{key.replace(/_/g, " ").toUpperCase()}:</strong> {displayValue}
                                 </p>
+
                             );
                         })}
                     </div>
