@@ -32,6 +32,23 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
+from sqlalchemy import inspect, Column, Integer, ForeignKey
+
+with app.app_context():
+    # 1️⃣ Crear todas las tablas que falten
+    db.create_all()
+    print("✅ Tablas creadas o ya existentes.")
+
+    # 2️⃣ Verificar columna 'subtype_id' en 'item'
+    inspector = inspect(db.engine)
+    columns = [c['name'] for c in inspector.get_columns('item')]
+    if 'subtype_id' not in columns:
+        print("⚠️ Columna 'subtype_id' no existe. Creándola...")
+        db.engine.execute('ALTER TABLE item ADD COLUMN subtype_id INTEGER REFERENCES subtype(id);')
+        print("✅ Columna 'subtype_id' creada.")
+    else:
+        print("✅ Columna 'subtype_id' ya existe.")
+
 # add the admin
 setup_admin(app)
 
