@@ -164,7 +164,7 @@ export const ItemPage = () => {
 
                             // 🔹 Añadir ceros delante a numero_registro_general
                             if (key === "numero_registro_general") {
-                                displayValue = value.toString().padStart(3, "0");
+                                displayValue = value.toString().padStart(4, "0");
                             }
 
                             // 🔹 Añadir símbolo de euro a precios
