@@ -8,6 +8,7 @@ npm run build
 pip install pipenv
 pipenv install --deploy --ignore-pipfile
 
-# 🚀 Crear tablas automáticamente si no existen
+# 🚀 Asegurar que Python encuentre los módulos
+# 📦 Crear tablas automáticamente si no existen
 echo "📦 Creando tablas en la base de datos si no existen..."
-pipenv run python -c "from src.app import app; from src.models import db; app.app_context().push(); db.create_all(); print('✅ Tablas creadas o ya existentes.')"
+pipenv run python -c "from api.app import app; from api.models import db; app.app_context().push(); db.create_all(); print('✅ Tablas creadas o ya existentes.')"
