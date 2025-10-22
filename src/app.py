@@ -49,6 +49,15 @@ with app.app_context():
     else:
         print("✅ Columna 'subtype_id' ya existe.")
 
+    if 'type_id' in columns:
+        print("⚠️ Eliminando columna obsoleta 'type_id'...")
+        try:
+            db.engine.execute('ALTER TABLE item DROP COLUMN type_id CASCADE;')
+            print("✅ Columna 'type_id' eliminada correctamente.")
+        except Exception as e:
+            print(f"❌ Error eliminando 'type_id': {e}")
+    else:
+        print("✅ Columna 'type_id' ya no existe.")
 # add the admin
 setup_admin(app)
 
