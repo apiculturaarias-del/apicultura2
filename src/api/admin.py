@@ -1,6 +1,7 @@
 import os
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from wtforms import TextAreaField
 from .models import db, User, Category, Type, Subtype, Item
 
 
@@ -56,6 +57,15 @@ class ItemAdmin(ModelView):
     form_labels = column_labels
     column_exclude_list = ['descripcion']
     can_export = True
+    form_overrides = {
+        'descripcion': TextAreaField
+    }
+    form_widget_args = {
+        'descripcion': {
+            'rows': 6,
+            'style': 'width: 100%; resize: vertical;'
+        }
+    }
 
 
 def setup_admin(app):
