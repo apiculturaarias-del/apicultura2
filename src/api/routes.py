@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, session
-from api.models import db, User, Category, Type, Item
+from api.models import db, User, Category, Type, Subtype, Item
 from flask_cors import CORS
 
 api = Blueprint("api", __name__)
