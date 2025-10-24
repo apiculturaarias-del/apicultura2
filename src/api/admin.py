@@ -55,6 +55,9 @@ class ItemAdmin(ModelView):
         'image4': 'Imagen 4'
     }
     form_labels = column_labels
+    column_searchable_list = ['nombre', 'descripcion', 'articulo', 'numero_registro_general']
+    column_filters = ['subtype', 'precio_compra']
+    column_default_sort = 'nombre'
     column_exclude_list = ['descripcion']
     can_export = True
     form_overrides = {
@@ -62,7 +65,7 @@ class ItemAdmin(ModelView):
     }
     form_widget_args = {
         'descripcion': {
-            'rows': 6,
+            'rows': 8,
             'style': 'width: 100%; resize: vertical;'
         }
     }

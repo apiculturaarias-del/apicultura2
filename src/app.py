@@ -32,7 +32,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
-from sqlalchemy import inspect, Column, Integer, ForeignKey
+from sqlalchemy import inspect, Column, Integer, ForeignKey, text
 
 with app.app_context():
     # 1️⃣ Crear todas las tablas que falten
@@ -58,6 +58,18 @@ with app.app_context():
             print(f"❌ Error eliminando 'type_id': {e}")
     else:
         print("✅ Columna 'type_id' ya no existe.")
+
+    try:
+        columnas_item = inspector.get_columns('item')
+        col_desc = next((c for c in columnas_item if c['name'] == 'descripcion'), None)
+        if col_desc and col_desc['type'].__class__.__name__ != 'TEXT':
+            print("⚠️ Cambiando columna 'descripcion' a tipo TEXT...")
+            db.engine.execute(text('ALTER TABLE item ALTER COLUMN descripcion TYPE TEXT;'))
+            print("✅ Columna 'descripcion' cambiada a TEXT correctamente.")
+        else:
+            print("✅ Columna 'descripcion' ya es TEXT o no existe.")
+    except Exception as e:
+        print(f"❌ Error modificando tipo de columna 'descripcion': {e}")
 # add the admin
 setup_admin(app)
 
