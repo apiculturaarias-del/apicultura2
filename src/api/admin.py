@@ -26,7 +26,7 @@ class CategoryAdmin(ModelView):
 class TypeAdmin(ModelView):
     column_labels = {
         'nombre': 'Nombre del tipo',
-        'category': 'Categoría',
+        'category': 'Familia',
         'image': 'Imagen'
     }
     form_labels = column_labels
@@ -56,7 +56,6 @@ class ItemAdmin(ModelView):
     }
     form_labels = column_labels
     column_searchable_list = ['nombre', 'descripcion', 'articulo', 'numero_registro_general']
-    column_filters = ['subtype', 'precio_compra']
     column_default_sort = 'nombre'
     column_exclude_list = ['descripcion']
     can_export = True
@@ -77,7 +76,7 @@ def setup_admin(app):
     admin = Admin(app, name='Apiculturas Admin', template_mode='bootstrap4')
     
     admin.add_view(UserAdmin(User, db.session, name='Usuarios'))
-    admin.add_view(CategoryAdmin(Category, db.session, name='Categorías'))
+    admin.add_view(CategoryAdmin(Category, db.session, name='Familia'))
     admin.add_view(TypeAdmin(Type, db.session, name='Tipos'))
     admin.add_view(SubtypeAdmin(Subtype, db.session, name='Subtipos'))
     admin.add_view(ItemAdmin(Item, db.session, name='Productos'))
