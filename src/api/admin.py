@@ -77,11 +77,11 @@ class ItemAdmin(ModelView):
 
     # Columnas visibles en la tabla
     column_list = [
-        'id', 'nombre', 'descripcion', 'subtype', 'articulo', 'nombre_local_tradicional',
+        'id', 'nombre', 'subtype', 'articulo', 'nombre_local_tradicional',
         'referencia_topografica', 'numero_piezas', 'fecha_origen', 'fecha_adquisicion',
         'procedencia', 'autor', 'aportado_por', 'propietario', 'precio_compra',
         'valoracion_actual', 'materiales', 'medidas', 'estado_general', 'restauraciones',
-        'uso_funcion', 'observaciones', 'exposiciones', 'referencias_bibliograficas',
+        'uso_funcion', 'exposiciones', 'referencias_bibliograficas',
         'prestamos'
     ]
 
@@ -93,7 +93,12 @@ class ItemAdmin(ModelView):
 
     # 🧾 Exportación (incluye ID)
     can_export = True
-    column_export_list = ['id', 'nombre', 'subtype', 'articulo', 'precio_compra', 'descripcion']
+    column_export_list = ['id', 'nombre', 'descripcion', 'subtype', 'articulo', 'nombre_local_tradicional',
+        'referencia_topografica', 'numero_piezas', 'fecha_origen', 'fecha_adquisicion',
+        'procedencia', 'autor', 'aportado_por', 'propietario', 'precio_compra',
+        'valoracion_actual', 'materiales', 'medidas', 'estado_general', 'restauraciones',
+        'uso_funcion', 'observaciones', 'exposiciones', 'referencias_bibliograficas',
+        'prestamos', 'image1', 'image2', 'image3', 'image4']
 
     # ✏️ Formulario
     form_excluded_columns = ['numero_registro_general']  # ocultamos solo este
