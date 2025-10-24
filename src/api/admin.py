@@ -43,25 +43,53 @@ class SubtypeAdmin(ModelView):
 
 class ItemAdmin(ModelView):
     column_labels = {
-        'nombre': 'Nombre del producto',
-        'subtype': 'Subtipo',
-        'description': 'Descripción',
         'id': 'Número registro',
+        'nombre': 'Nombre del producto',
+        'descripcion': 'Descripción',
+        'subtype': 'Subtipo',
         'articulo': 'Artículo',
+        'nombre_local_tradicional': 'Nombre Local Tradicional',
+        'referencia_topografica': 'Referencia Topografica',
+        'numero_piezas': 'Numero Piezas',
+        'fecha_origen': 'Fecha Origen',
+        'fecha_adquisicion': 'Fecha Adquisicion',
+        'procedencia': 'Procedencia',
+        'autor': 'Autor',
+        'aportado_por': 'Aportado Por',
+        'propietario': 'Propietario',
         'precio_compra': 'Precio',
+        'valoracion_actual': 'Valoracion Actual',
+        'materiales': 'Materiales',
+        'medidas': 'Medidas',
+        'estado_general': 'Estado General',
+        'restauraciones': 'Restauraciones',
+        'uso_funcion': 'Uso Funcion',
+        'observaciones': 'Observaciones',
+        'exposiciones': 'Exposiciones',
+        'referencias_bibliograficas': 'Referencias Bibliograficas',
+        'prestamos': 'Prestamos',
         'image1': 'Imagen 1',
         'image2': 'Imagen 2',
         'image3': 'Imagen 3',
-        'image4': 'Imagen 4'
+        'image4': 'Imagen 4',
     }
     form_labels = column_labels
+
+    # Columnas visibles en la tabla
+    column_list = [
+        'id', 'nombre', 'descripcion', 'subtype', 'articulo', 'nombre_local_tradicional',
+        'referencia_topografica', 'numero_piezas', 'fecha_origen', 'fecha_adquisicion',
+        'procedencia', 'autor', 'aportado_por', 'propietario', 'precio_compra',
+        'valoracion_actual', 'materiales', 'medidas', 'estado_general', 'restauraciones',
+        'uso_funcion', 'observaciones', 'exposiciones', 'referencias_bibliograficas',
+        'prestamos'
+    ]
 
     # 🔍 Búsqueda
     column_searchable_list = ['nombre', 'articulo', 'id']
     column_default_sort = 'id'
 
     # 👁️ Columnas visibles en la lista
-    column_list = ['id', 'nombre', 'subtype', 'articulo', 'precio_compra']
 
     # 🧾 Exportación (incluye ID)
     can_export = True
