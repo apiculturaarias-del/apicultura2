@@ -55,11 +55,20 @@ class ItemAdmin(ModelView):
         'image4': 'Imagen 4'
     }
     form_labels = column_labels
+
+    # 🔍 Búsqueda
     column_searchable_list = ['nombre', 'articulo', 'id']
-    column_default_sort = 'nombre'
-    column_exclude_list = ['descripcion']
-    form_excluded_columns = ['id', 'numero_registro_general']
+    column_default_sort = 'id'
+
+    # 👁️ Columnas visibles en la lista
+    column_list = ['id', 'nombre', 'subtype', 'articulo', 'precio_compra']
+
+    # 🧾 Exportación (incluye ID)
     can_export = True
+    column_export_list = ['id', 'nombre', 'subtype', 'articulo', 'precio_compra', 'descripcion']
+
+    # ✏️ Formulario
+    form_excluded_columns = ['numero_registro_general']  # ocultamos solo este
     form_overrides = {
         'descripcion': TextAreaField
     }
@@ -68,6 +77,14 @@ class ItemAdmin(ModelView):
             'rows': 8,
             'style': 'width: 100%; resize: vertical;'
         }
+    }
+
+    # 🔢 Mostrar el ID con ceros delante
+    def _id_formatter(view, context, model, name):
+        return str(model.id).zfill(4)  # ej: 0001, 0023, etc.
+
+    column_formatters = {
+        'id': _id_formatter
     }
 
 
