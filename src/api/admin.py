@@ -46,7 +46,7 @@ class ItemAdmin(ModelView):
         'nombre': 'Nombre del producto',
         'subtype': 'Subtipo',
         'description': 'Descripción',
-        'numero_registro_general': 'Número registro',
+        'id': 'Número registro',
         'articulo': 'Artículo',
         'precio_compra': 'Precio',
         'image1': 'Imagen 1',
@@ -55,9 +55,10 @@ class ItemAdmin(ModelView):
         'image4': 'Imagen 4'
     }
     form_labels = column_labels
-    column_searchable_list = ['nombre', 'descripcion', 'articulo', 'numero_registro_general']
+    column_searchable_list = ['nombre', 'articulo', 'id']
     column_default_sort = 'nombre'
     column_exclude_list = ['descripcion']
+    form_excluded_columns = ['id', 'numero_registro_general']
     can_export = True
     form_overrides = {
         'descripcion': TextAreaField
